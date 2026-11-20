@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DEX Scanner</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #080d18;
+  color: white;
+}
+
+header {
+  padding: 22px;
+  background: #111a2b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #20e3a2;
+}
+
+.badge {
+  color: #20e3a2;
+  font-size: 13px;
+}
+
+.container {
+  max-width: 750px;
+  margin: auto;
+  padding: 25px 18px;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 45px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #9ba8bc;
+  line-height: 1.6;
+}
+
+.search {
+  display: flex;
+  gap: 8px;
+  margin-top: 30px;
+}
+
+input {
+  flex: 1;
+  min-width: 0;
+  padding: 15px;
+  border-radius: 9px;
+  border: 1px solid #34415a;
+  background: #111a2b;
+  color: white;
+}
+
+button {
+  padding: 14px 20px;
+  background: #20e3a2;
+  border: none;
+  border-radius: 9px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 35px;
+}
+
+.card {
+  background: #111a2b;
+  padding: 22px;
+  border-radius: 12px;
+  border: 1px solid #25334a;
+}
+
+.card p {
+  color: #9ba8bc;
+  margin-bottom: 8px;
+}
+
+.card h2 {
+  color: #20e3a2;
+  font-size: 19px;
+}
+
+.info {
+  margin-top: 30px;
+  padding: 20px;
+  background: #111a2b;
+  border-radius: 12px;
+  color: #aab5c7;
+  line-height: 1.7;
+}
+
+footer {
+  text-align: center;
+  padding: 35px 10px;
+  color: #718096;
+  font-size: 13px;
+}
+
+@media(max-width:450px) {
+  .search {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">⚡ DEX SCANNER</div>
+  <div class="badge">● ONLINE</div>
+</header>
+
+<div class="container">
+
+<h1>Explore Crypto Tokens</h1>
+
+<p class="subtitle">
+Discover tokens, analyze liquidity and monitor
+the crypto market.
+</p>
+
+<div class="search">
+<input id="tokenAddress"
+placeholder="Enter Token Contract Address">
+<button onclick="scanToken()">SCAN</button>
+</div>
+
+<div class="cards">
+
+<div class="card">
+<p>📊 Market Cap</p>
+<h2>--</h2>
+</div>
+
+<div class="card">
+<p>💧 Liquidity</p>
+<h2>--</h2>
+</div>
+
+<div class="card">
+<p>👥 Holders</p>
+<h2>--</h2>
+</div>
+
+<div class="card">
+<p>📈 24H Volume</p>
+<h2>--</h2>
+</div>
+
+</div>
+
+<div class="info" id="result">
+<h3>🔍 Token Analysis</h3>
+<p>Enter a token contract address to begin scanning.</p>
+</div>
+
+</div>
+
+<footer>
+DEX SCANNER © 2026 <br>
+Crypto Research & Analytics
+</footer>
+
+<script>
+function scanToken() {
+  const address = document.getElementById("tokenAddress").value.trim();
+  const result = document.getElementById("result");
+
+  if (!address) {
+    result.innerHTML = "<h3>⚠️ Error</h3><p>Please enter a token address.</p>";
+    return;
+  }
+
+  result.innerHTML =
+    "<h3>🔍 Address Received</h3>" +
+    "<p>" + address.replace(/[<>&"']/g, "") + "</p>" +
+    "<p>Live token analysis will be connected in the next development stage
