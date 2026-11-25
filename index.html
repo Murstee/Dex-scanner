@@ -2,126 +2,80 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DEX Scanner</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Murstee DEX Scanner</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#080d18;
+ color:white;
+ font-family:Arial,sans-serif;
 }
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #080d18;
-  color: white;
+header{
+ background:#111a2b;
+ padding:22px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
 }
-
-header {
-  padding: 22px;
-  background: #111a2b;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.logo{color:#20e3a2;font-size:22px;font-weight:bold}
+.container{max-width:850px;margin:auto;padding:20px}
+h1{text-align:center;margin-top:40px}
+.sub{text-align:center;color:#9ba8bc}
+.search{
+ background:#111a2b;
+ padding:18px;
+ border-radius:14px;
+ margin-top:30px;
 }
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: #20e3a2;
+select,input{
+ width:100%;
+ padding:15px;
+ margin:8px 0;
+ border-radius:8px;
+ border:1px solid #34415a;
+ background:#080d18;
+ color:white;
 }
-
-.badge {
-  color: #20e3a2;
-  font-size: 13px;
+button{
+ width:100%;
+ padding:15px;
+ border:0;
+ border-radius:8px;
+ background:#20e3a2;
+ font-weight:bold;
+ cursor:pointer;
 }
-
-.container {
-  max-width: 750px;
-  margin: auto;
-  padding: 25px 18px;
+.status{text-align:center;color:#20e3a2;margin:20px}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+ margin-top:20px;
 }
-
-h1 {
-  text-align: center;
-  margin-top: 45px;
+.card{
+ background:#111a2b;
+ padding:18px;
+ border:1px solid #26364d;
+ border-radius:12px;
 }
-
-.subtitle {
-  text-align: center;
-  color: #9ba8bc;
-  line-height: 1.6;
+.card p{color:#9ba8bc;font-size:13px}
+.card h2{font-size:19px;overflow-wrap:anywhere}
+.info{
+ background:#111a2b;
+ padding:20px;
+ border-radius:12px;
+ margin-top:20px;
+ line-height:1.8;
+ overflow-wrap:anywhere;
 }
-
-.search {
-  display: flex;
-  gap: 8px;
-  margin-top: 30px;
-}
-
-input {
-  flex: 1;
-  min-width: 0;
-  padding: 15px;
-  border-radius: 9px;
-  border: 1px solid #34415a;
-  background: #111a2b;
-  color: white;
-}
-
-button {
-  padding: 14px 20px;
-  background: #20e3a2;
-  border: none;
-  border-radius: 9px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.cards {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 15px;
-  margin-top: 35px;
-}
-
-.card {
-  background: #111a2b;
-  padding: 22px;
-  border-radius: 12px;
-  border: 1px solid #25334a;
-}
-
-.card p {
-  color: #9ba8bc;
-  margin-bottom: 8px;
-}
-
-.card h2 {
-  color: #20e3a2;
-  font-size: 19px;
-}
-
-.info {
-  margin-top: 30px;
-  padding: 20px;
-  background: #111a2b;
-  border-radius: 12px;
-  color: #aab5c7;
-  line-height: 1.7;
-}
-
-footer {
-  text-align: center;
-  padding: 35px 10px;
-  color: #718096;
-  font-size: 13px;
-}
-
-@media(max-width:450px) {
-  .search {
-    flex-direction: column;
-  }
+a{color:#20e3a2}
+footer{text-align:center;color:#78869b;padding:35px}
+@media(max-width:450px){
+ .grid{grid-template-columns:1fr 1fr}
+ .card{padding:12px}
 }
 </style>
 </head>
@@ -129,72 +83,207 @@ footer {
 <body>
 
 <header>
-  <div class="logo">⚡ DEX SCANNER</div>
-  <div class="badge">● ONLINE</div>
+<div class="logo">⚡ MURSTEE DEX</div>
+<span style="color:#20e3a2">● LIVE</span>
 </header>
 
 <div class="container">
 
-<h1>Explore Crypto Tokens</h1>
+<h1>DEX TOKEN SCANNER</h1>
 
-<p class="subtitle">
-Discover tokens, analyze liquidity and monitor
-the crypto market.
+<p class="sub">
+Analyze Solana and Base tokens before trading.
 </p>
 
 <div class="search">
-<input id="tokenAddress"
-placeholder="Enter Token Contract Address">
-<button onclick="scanToken()">SCAN</button>
+
+<label>Select Network</label>
+
+<select id="network">
+<option value="solana">Solana</option>
+<option value="base">Base</option>
+</select>
+
+<label>Contract Address</label>
+
+<input id="address"
+placeholder="Paste token contract address">
+
+<button onclick="scan()">🔍 SCAN TOKEN</button>
+
 </div>
 
-<div class="cards">
+<div class="status" id="status">
+Ready to scan.
+</div>
+
+<div id="tokenInfo" style="display:none">
+
+<h2 id="tokenName"></h2>
+
+<div class="grid">
 
 <div class="card">
-<p>📊 Market Cap</p>
-<h2>--</h2>
+<p>💵 PRICE USD</p>
+<h2 id="price">--</h2>
 </div>
 
 <div class="card">
-<p>💧 Liquidity</p>
-<h2>--</h2>
+<p>📊 MARKET CAP</p>
+<h2 id="mcap">--</h2>
 </div>
 
 <div class="card">
-<p>👥 Holders</p>
-<h2>--</h2>
+<p>💧 LIQUIDITY</p>
+<h2 id="liquidity">--</h2>
 </div>
 
 <div class="card">
-<p>📈 24H Volume</p>
-<h2>--</h2>
+<p>📈 24H VOLUME</p>
+<h2 id="volume">--</h2>
+</div>
+
+<div class="card">
+<p>📉 24H CHANGE</p>
+<h2 id="change">--</h2>
+</div>
+
+<div class="card">
+<p>🔄 24H TRANSACTIONS</p>
+<h2 id="transactions">--</h2>
 </div>
 
 </div>
 
-<div class="info" id="result">
-<h3>🔍 Token Analysis</h3>
-<p>Enter a token contract address to begin scanning.</p>
+<div class="info">
+
+<h3>🔎 TOKEN DETAILS</h3>
+
+<p id="dex"></p>
+<p id="buys"></p>
+<p id="sells"></p>
+<p id="pair"></p>
+<p id="created"></p>
+
+<a id="chart" target="_blank" rel="noopener">
+Open Chart on DexScreener ↗
+</a>
+
+</div>
+
+</div>
+
+<div class="info">
+<h3>🛡️ SECURITY TOOLS</h3>
+<p>Liquidity Analysis: Market data available.</p>
+<p>Top Holders: Coming soon.</p>
+<p>Honeypot Check: Coming soon.</p>
+<p>Rug Pull Analysis: Coming soon.</p>
 </div>
 
 </div>
 
 <footer>
-DEX SCANNER © 2026 <br>
-Crypto Research & Analytics
+MURSTEE DEX SCANNER © 2026
+<br>Trade Smart. DYOR.
 </footer>
 
 <script>
-function scanToken() {
-  const address = document.getElementById("tokenAddress").value.trim();
-  const result = document.getElementById("result");
 
-  if (!address) {
-    result.innerHTML = "<h3>⚠️ Error</h3><p>Please enter a token address.</p>";
-    return;
-  }
+async function scan(){
 
-  result.innerHTML =
-    "<h3>🔍 Address Received</h3>" +
-    "<p>" + address.replace(/[<>&"']/g, "") + "</p>" +
-    "<p>Live token analysis will be connected in the next development stage
+const address=document.getElementById("address").value.trim();
+const network=document.getElementById("network").value;
+const status=document.getElementById("status");
+
+if(!address){
+status.innerText="⚠️ Enter a contract address first.";
+return;
+}
+
+status.innerText="⏳ Scanning token...";
+
+document.getElementById("tokenInfo").style.display="none";
+
+try{
+
+const url=`https://api.dexscreener.com/token-pairs/v1/${network}/${encodeURIComponent(address)}`;
+
+const response=await fetch(url);
+
+if(!response.ok) throw new Error("API request failed");
+
+const data=await response.json();
+
+if(!Array.isArray(data)||data.length===0){
+throw new Error("No trading pairs found for this token.");
+}
+
+const pairs=data.sort((a,b)=>
+(b.liquidity?.usd||0)-(a.liquidity?.usd||0)
+);
+
+const p=pairs[0];
+
+const money=n=>{
+if(n===null||n===undefined||!Number.isFinite(Number(n)))return "N/A";
+return "$"+Number(n).toLocaleString("en-US",{maximumFractionDigits:4});
+};
+
+const name=p.baseToken?.name||"Unknown";
+const symbol=p.baseToken?.symbol||"";
+
+document.getElementById("tokenName").innerText=name+" ("+symbol+")";
+
+document.getElementById("price").innerText=
+money(p.priceUsd);
+
+document.getElementById("mcap").innerText=
+money(p.marketCap||p.fdv);
+
+document.getElementById("liquidity").innerText=
+money(p.liquidity?.usd);
+
+document.getElementById("volume").innerText=
+money(p.volume?.h24);
+
+document.getElementById("change").innerText=
+(p.priceChange?.h24??"N/A")+"%";
+
+document.getElementById("transactions").innerText=
+(p.txns?.h24?.buys||0)+(p.txns?.h24?.sells||0);
+
+document.getElementById("dex").innerText=
+"DEX: "+(p.dexId||"Unknown");
+
+document.getElementById("buys").innerText=
+"24H Buys: "+(p.txns?.h24?.buys||0);
+
+document.getElementById("sells").innerText=
+"24H Sells: "+(p.txns?.h24?.sells||0);
+
+document.getElementById("pair").innerText=
+"Pair: "+(p.pairAddress||"N/A");
+
+document.getElementById("created").innerText=
+"Pair Created: "+(p.pairCreatedAt?
+new Date(p.pairCreatedAt).toLocaleDateString():"N/A");
+
+document.getElementById("chart").href=p.url||"#";
+
+document.getElementById("tokenInfo").style.display="block";
+
+status.innerText="✅ Scan completed successfully!";
+
+}catch(error){
+
+status.innerText="❌ "+error.message;
+
+}
+
+}
+
+</script>
+
+</body>
+  </html>
